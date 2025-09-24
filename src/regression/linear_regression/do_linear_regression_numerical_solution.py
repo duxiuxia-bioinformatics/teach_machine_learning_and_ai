@@ -21,7 +21,7 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from ML_toolbox import d_mlr_gradient_descent_class
-from ML_toolbox import d_lm_analytical_solution
+from ML_toolbox import d_lm_analytical_solution_class
 
 # # --------------------------------------------------------------------------
 # # set up paths
@@ -94,7 +94,7 @@ def main():
             y_bar = np.mean(y)
 
             # do linear regression using my own function
-            lm_d_result = d_lm_analytical_solution.d_lm(x, y)
+            lm_d_result = d_lm_analytical_solution_class.d_lm(x, y)
 
             # plot
             fig = plt.figure()
