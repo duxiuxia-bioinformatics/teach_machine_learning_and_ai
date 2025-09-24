@@ -11,7 +11,12 @@ from sklearn.preprocessing import StandardScaler
 import statsmodels.api as sm
 
 # Get the absolute path of the current file
-current_dir = os.path.dirname(os.path.abspath(__file__))
+try:
+    # Works in .py scripts
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+except NameError:
+    # Fallback for Jupyter
+    current_dir = os.getcwd()
 
 # Go up N levels (here N=2, but you can adjust)
 project_root = os.path.abspath(os.path.join(current_dir, "..", ".."))
