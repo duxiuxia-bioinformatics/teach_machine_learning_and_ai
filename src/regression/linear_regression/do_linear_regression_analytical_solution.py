@@ -12,6 +12,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 import statsmodels.api as sm
 
+import project_imports
 
 # --------------------------------------------------------------------------
 # set up paths
