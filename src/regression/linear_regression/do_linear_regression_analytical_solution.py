@@ -12,22 +12,24 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 import statsmodels.api as sm
 
-import project_imports
+# import project_imports
 
-# --------------------------------------------------------------------------
-# set up paths
-# --------------------------------------------------------------------------
-# get the directory path of the running script
-# working_dir_absolute_path = os.path.dirname(os.path.realpath(__file__))
-working_dir_absolute_path = '/Users/xdu4/Dropbox (UNC Charlotte)/Duxiuxia/Ocean/Teaching/ML/all/python/src'
+# Get the absolute path of the current file
+try:
+    # Works in .py scripts
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+except NameError:
+    # Fallback for Jupyter
+    current_dir = os.getcwd()
 
-toolbox_absolute_path = os.path.join(working_dir_absolute_path, "ML_toolbox")
-data_absolute_path = os.path.join(working_dir_absolute_path, "data")
+# Go up N levels (here N=2, but you can adjust)
+project_root = os.path.abspath(os.path.join(current_dir, "..", ".."))
 
-sys.path.append(toolbox_absolute_path)
-sys.path.append(data_absolute_path)
+# Add the project root to sys.path if not already there so that the ML_toolbox can be imported
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 
-from ML_toolbox import d_lm
+from ML_toolbox import d_lm_analytical_solution_class
 
 # --------------------------------------------------------------------------
 # set up plotting parameters
@@ -48,10 +50,9 @@ boolean_using_existing_data = False
 def main():
 
     if boolean_using_existing_data:
-        in_file_name = "linear_regression_test_data.csv"
-        in_file_full_name = os.path.join(data_absolute_path, in_file_name)
+        in_file_name = "../../data/linear_regression_test_data.csv"
 
-        dataIn = pd.read_csv(in_file_full_name)
+        dataIn = pd.read_csv(in_file_name)
         x = np.array(dataIn['x'])
         y = np.array(dataIn['y'])
         y_theoretical = np.array(dataIn['y_theoretical'])
@@ -85,7 +86,7 @@ def main():
     y_bar = np.mean(y)
 
     # do linear regression using my own function
-    lm_d_result = d_lm.d_lm(x, y)
+    lm_d_result = d_lm_analytical_solution_class.d_lm(x, y)
 
     # plot
     fig = plt.figure()
@@ -174,7 +175,7 @@ def main():
             y_theoretical = beta_0 + beta_1 * x
             y = beta_0 + beta_1 * x + epsilon
 
-            lm_d_result = d_lm.d_lm(x, y)
+            lm_d_result = d_lm_analytical_solution_class.d_lm(x, y)
 
             beta_0_hat_vec[i] = lm_d_result['beta_0_hat']
             beta_1_hat_vec[i] = lm_d_result['beta_1_hat']
@@ -205,7 +206,7 @@ def main():
     ax.scatter(lm_d_result['y_hat'], r, color='blue')
     ax.set_xlabel('y_hat')
     ax.set_ylabel('r')
-    fig.show
+    fig.show()
 
     # --------------------------------------------------------------------------
     # Multiple linear regression
