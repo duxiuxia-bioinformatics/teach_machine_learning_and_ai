@@ -3,6 +3,7 @@
 # Ignore a specific folder
 data/
 results/
+*.zip
 
 ############################
 # OS-specific files
