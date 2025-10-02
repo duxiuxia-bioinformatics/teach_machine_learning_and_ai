@@ -40,7 +40,9 @@ example_index = 1
 use_corr = False
 
 def main():
+    # create data
     x1 = np.arange(start=0, stop=20, step=0.1)
+
     num_of_samples = len(x1)
 
     if example_index == 1:
