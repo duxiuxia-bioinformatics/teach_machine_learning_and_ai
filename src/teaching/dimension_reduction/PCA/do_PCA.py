@@ -26,8 +26,10 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from ML_toolbox.d_PCA import MyPCA
-# import config
+
+# plotting parameters
 marker_size = 12
+face_color = 'white'
 
 example_index = 1
 # example_index = 1: linearly correlated toy data with two variables
@@ -49,7 +51,7 @@ def main():
         # ----------------------------------------------------------------
         # A first glimpse at PCA
         # ----------------------------------------------------------------
-
+        # simulate the amount of noise injected to the simulated data
         standard_deviation = [0.5, 4.0]
 
         for i in range(len(standard_deviation)):
@@ -59,8 +61,9 @@ def main():
             x2 = 2 * x1 + np.random.normal(loc=0, scale=cur_scale, size=num_of_samples)
 
             # 2. visualize the raw data
-            fig = plt.figure()
+            fig = plt.figure(facecolor=face_color)
             ax = fig.add_subplot(1, 1, 1)
+            ax.set_facecolor(face_color)
             ax.scatter(x1, x2, color='blue')
             ax.set_xlabel('x1')
             ax.set_ylabel('x2')
@@ -77,58 +80,47 @@ def main():
             pca_results = object_pca.fit_transform(x=dataForAnalysis, corr_logic=use_corr)
 
             # scree plot
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(facecolor='white')
             ax.scatter(range(len(pca_results['percent_variance_explained'])), pca_results['percent_variance_explained'], color='blue')
             ax.set_title('scree plot')
             ax.set_xlabel('PC index')
             ax.set_ylabel('percent variance explained')
+            ax.set_facecolor(face_color)
             ax.set_ylim((-10.0, 110.0))
             fig.show()
 
             # scores plot
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(facecolor=face_color)
             ax.scatter(pca_results['scores'][:, 0], pca_results['scores'][:, 1], color='blue')
             ax.set_title('scores plot')
             ax.set_xlabel('PC1')
             ax.set_ylabel('PC2')
+            ax.set_facecolor(face_color)
             fig.show()
 
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(facecolor=face_color)
             ax.scatter(pca_results['scores'][:, 0], pca_results['scores'][:, 1], color='blue')
             ax.set_title('scores plot')
             ax.set_xlabel('PC1')
             ax.set_ylabel('PC2')
             ax.set_ylim((2*min(pca_results['scores'][:, 1]), max(x2)))
+            ax.set_facecolor(face_color)
             fig.show()
 
             # loadings plot
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(facecolor=face_color)
             ax.scatter(pca_results['loadings'][:, 0], pca_results['loadings'][:, 1], color='blue')
             ax.set_title('loadings plot')
             ax.set_xlabel('PC1')
             ax.set_ylabel('PC2')
+            ax.set_facecolor(face_color)
             for i in range(pca_results['loadings'].shape[0]):
                 ax.text(pca_results['loadings'][i, 0], pca_results['loadings'][i, 1], 'x'+str(i+1))
             fig.show()
 
-            # # PCA in the context of the raw data
-            # fig, ax = plt.subplots()
-            # k = -20
-            # ax.scatter(x1, x2, color='blue')
-            # ax.plot([0, -20*pca_results['loadings'][0, 0]], [0, -20*pca_results['loadings'][1, 0]],
-            #         color='red', linewidth=3, label='PC 1')
-            # ax.plot([0, 20 * pca_results['loadings'][0, 1]], [0, 20 * pca_results['loadings'][1, 1]],
-            #         color='green', linewidth=3, label='PC 2')
-            # ax.set_title('raw data and PC axis')
-            # ax.set_aspect('equal', 'box')
-            # ax.set_xlabel('x1')
-            # ax.set_ylabel('x2')
-            # ax.legend()
-            # fig.show()
-
             # PCA in the context of the raw data
             k = -20
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(facecolor=face_color)
             ax.scatter(x1, x2, color='blue')
             ax.plot([0, k*pca_results['loadings'][0, 0]], [0, k*pca_results['loadings'][1, 0]],
                     color='red', linewidth=3, label='PC 1')
@@ -138,17 +130,19 @@ def main():
             ax.set_aspect('equal', 'box')
             ax.set_xlabel('x1')
             ax.set_ylabel('x2')
+            ax.set_facecolor(face_color)
             ax.legend()
             fig.show()
 
             # keep only the first dimension
             data_reconstructed = np.matmul(pca_results['scores'][:, 0].reshape((200, 1)), pca_results['loadings'][:, 0].reshape((1, 2)))
-            fig = plt.figure()
+            fig = plt.figure(facecolor=face_color)
             ax = fig.add_subplot(1, 1, 1)
             ax.set_title('reconstructed data using PC1')
             ax.scatter(data_reconstructed[:, 0], data_reconstructed[:, 1], color='blue')
             ax.set_xlabel('x1')
             ax.set_ylabel('x2')
+            ax.set_facecolor(face_color)
             fig.show()
 
     elif example_index == 2:
