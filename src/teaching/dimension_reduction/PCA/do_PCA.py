@@ -29,7 +29,10 @@ from ML_toolbox.d_PCA import MyPCA
 
 # plotting parameters
 marker_size = 12
-face_color = 'white'
+face_color = 'ivory'
+plt.rcParams['axes.facecolor'] = face_color
+fig_size = (5, 3)
+
 
 example_index = 1
 # example_index = 1: linearly correlated toy data with two variables
@@ -61,9 +64,8 @@ def main():
             x2 = 2 * x1 + np.random.normal(loc=0, scale=cur_scale, size=num_of_samples)
 
             # 2. visualize the raw data
-            fig = plt.figure(facecolor=face_color)
+            fig = plt.figure(figsize=fig_size)
             ax = fig.add_subplot(1, 1, 1)
-            ax.set_facecolor(face_color)
             ax.scatter(x1, x2, color='blue')
             ax.set_xlabel('x1')
             ax.set_ylabel('x2')
@@ -80,47 +82,43 @@ def main():
             pca_results = object_pca.fit_transform(x=dataForAnalysis, corr_logic=use_corr)
 
             # scree plot
-            fig, ax = plt.subplots(facecolor='white')
+            fig, ax = plt.subplots(figsize=fig_size)
             ax.scatter(range(len(pca_results['percent_variance_explained'])), pca_results['percent_variance_explained'], color='blue')
             ax.set_title('scree plot')
             ax.set_xlabel('PC index')
             ax.set_ylabel('percent variance explained')
-            ax.set_facecolor(face_color)
             ax.set_ylim((-10.0, 110.0))
             fig.show()
 
             # scores plot
-            fig, ax = plt.subplots(facecolor=face_color)
+            fig, ax = plt.subplots(figsize=fig_size)
             ax.scatter(pca_results['scores'][:, 0], pca_results['scores'][:, 1], color='blue')
             ax.set_title('scores plot')
             ax.set_xlabel('PC1')
             ax.set_ylabel('PC2')
-            ax.set_facecolor(face_color)
             fig.show()
 
-            fig, ax = plt.subplots(facecolor=face_color)
+            fig, ax = plt.subplots(figsize=fig_size)
             ax.scatter(pca_results['scores'][:, 0], pca_results['scores'][:, 1], color='blue')
             ax.set_title('scores plot')
             ax.set_xlabel('PC1')
             ax.set_ylabel('PC2')
             ax.set_ylim((2*min(pca_results['scores'][:, 1]), max(x2)))
-            ax.set_facecolor(face_color)
             fig.show()
 
             # loadings plot
-            fig, ax = plt.subplots(facecolor=face_color)
+            fig, ax = plt.subplots(figsize=fig_size)
             ax.scatter(pca_results['loadings'][:, 0], pca_results['loadings'][:, 1], color='blue')
             ax.set_title('loadings plot')
             ax.set_xlabel('PC1')
             ax.set_ylabel('PC2')
-            ax.set_facecolor(face_color)
             for i in range(pca_results['loadings'].shape[0]):
                 ax.text(pca_results['loadings'][i, 0], pca_results['loadings'][i, 1], 'x'+str(i+1))
             fig.show()
 
             # PCA in the context of the raw data
             k = -20
-            fig, ax = plt.subplots(facecolor=face_color)
+            fig, ax = plt.subplots(figsize=fig_size)
             ax.scatter(x1, x2, color='blue')
             ax.plot([0, k*pca_results['loadings'][0, 0]], [0, k*pca_results['loadings'][1, 0]],
                     color='red', linewidth=3, label='PC 1')
@@ -130,19 +128,17 @@ def main():
             ax.set_aspect('equal', 'box')
             ax.set_xlabel('x1')
             ax.set_ylabel('x2')
-            ax.set_facecolor(face_color)
             ax.legend()
             fig.show()
 
             # keep only the first dimension
             data_reconstructed = np.matmul(pca_results['scores'][:, 0].reshape((200, 1)), pca_results['loadings'][:, 0].reshape((1, 2)))
-            fig = plt.figure(facecolor=face_color)
+            fig = plt.figure(figsize=fig_size)
             ax = fig.add_subplot(1, 1, 1)
             ax.set_title('reconstructed data using PC1')
             ax.scatter(data_reconstructed[:, 0], data_reconstructed[:, 1], color='blue')
             ax.set_xlabel('x1')
             ax.set_ylabel('x2')
-            ax.set_facecolor(face_color)
             fig.show()
 
     elif example_index == 2:
