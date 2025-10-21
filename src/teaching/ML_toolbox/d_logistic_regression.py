@@ -53,7 +53,8 @@ class logistic_regression:
         else:
             for i in range(self.number_of_samples):
                 current_x = self.X[i, :]
-                current_y = float(np.asscalar(self.y[i]))
+                # current_y = float(np.asscalar(self.y[i]))
+                current_y = float(self.y[i][0])
 
                 current_z = np.asscalar(np.matmul(current_x, theta))  # linear combination of variables
                 current_y_hat = self.get_logistic(current_z)  # logistic function
