@@ -10,6 +10,10 @@ from ML_toolbox import d_logistic_regression
 in_file_name = 'pfas_standardized.csv'
 data_in_df = pd.read_csv(in_file_name)
 
+
+
+xx = 1
+
 # obj_logistic_regression = d_logistic_regression.logistic_regression(X=X_train,
 #                                                                             y=Y_train,
 #                                                                             delta_J_threshold=my_delta_J_threshold,
