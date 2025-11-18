@@ -12,11 +12,11 @@ from sklearn import datasets
 
 from numpy import linalg as LA
 
-src_dir = '/Users/xdu4/Documents/Duxiuxia/source_code_repository/github_duxiuxia-bioinformatics/teach_machine_learning'
+src_dir = '/Users/xdu4/Documents/Duxiuxia/source_code_repository/github_duxiuxia-bioinformatics/teach_machine_learning_and_ai'
 os.chdir(src_dir)
 
-from ML_toolbox.d_PCA import MyPCA
-import config
+# from ML_toolbox.d_PCA import MyPCA
+# import config
 
 def main():
 
@@ -33,7 +33,8 @@ def main():
 
     # examine the data
     # plot the data in 2D
-    fig = plt.figure(figsize=(config.fig_width, config.fig_height))
+    # fig = plt.figure(figsize=(config.fig_width, config.fig_height))
+    fig = plt.figure()
     ax = fig.add_subplot(2, 1, 1)
     II = (y==0)
     ax.scatter(X[II,0], X[II, 1], color='blue')
@@ -58,7 +59,8 @@ def main():
     fig.show()
 
     # plot the data in 3D
-    fig = plt.figure(figsize=(config.fig_width, config.fig_height))
+    # fig = plt.figure(figsize=(config.fig_width, config.fig_height))
+    fig = plt.figure()
     #ax = Axes3D(fig, rect=[0, 0, .95, 1], elev=48, azim=134)
     ax = fig.add_subplot(111, projection='3d')
     flower_name_and_label = [('Setosa', 0),
@@ -73,7 +75,7 @@ def main():
                   bbox=dict(alpha=.2, edgecolor='w', facecolor='w'))
     # Reorder the labels to have colors matching the cluster results
     y = np.choose(y, [1, 2, 0]).astype(np.float64)
-    ax.scatter(X[:, 3], X[:, 0], X[:, 2], c=y, edgecolor='k', s=config.marker_size)
+    ax.scatter(X[:, 3], X[:, 0], X[:, 2], c=y, edgecolor='k', s=12)
 
     # ax.w_xaxis.set_ticklabels([])
     # ax.w_yaxis.set_ticklabels([])
@@ -105,13 +107,16 @@ def main():
     for i in range(len(estimators)):
         name = estimators[i][0]
         est = estimators[i][1]
-        fig = plt.figure(figsize=(config.fig_width, config.fig_height))
+        # fig = plt.figure(figsize=(config.fig_width, config.fig_height))
+        fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         est.fit(X)
         labels = est.labels_
 
+        # ax.scatter(X[:, 3], X[:, 0], X[:, 2],
+        #            c=labels.astype(np.float64), edgecolor='k', s=config.marker_size)
         ax.scatter(X[:, 3], X[:, 0], X[:, 2],
-                   c=labels.astype(np.float64), edgecolor='k', s=config.marker_size)
+                   c=labels.astype(np.float64), edgecolor='k', s=12)
 
         # ax.w_xaxis.set_ticklabels([])
         # ax.w_yaxis.set_ticklabels([])

@@ -69,7 +69,7 @@ def main():
     inFileName = "../data/SCLC_study_output_filtered_2.csv"
     dataIn = pd.read_csv(inFileName, header=0, index_col=0)
 
-    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='complete', affinity='euclidean')
+    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='complete', metric='euclidean')
     HC_model_SCLC_1.fit(dataIn.values)
     print("\ncluster labels from HC with complete linkage and Euclidean distance for cell line data:")
     print(HC_model_SCLC_1.labels_)

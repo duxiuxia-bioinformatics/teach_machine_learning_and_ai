@@ -85,7 +85,7 @@ def main():
 
     my_initial_theta = np.zeros((my_number_of_variables, 1))
 
-    # pre-treatment of variables
+    # pre-treatment of variables: range normalization
     X_pretreated = np.zeros((my_number_of_samples, my_number_of_variables))
     for i in range(my_number_of_variables):
         cur_col = my_X[:, i]
@@ -95,19 +95,20 @@ def main():
 
         X_pretreated[:, i] = (cur_col - col_min) / col_range
 
+    # do leave-one-out
     compare_with_scikit = []
+    test_data_index_set = [[1], [61]]
     error_array = np.zeros(my_number_of_samples)
-    # for index_testing in range(my_number_of_samples):
-    for index_testing in [49]:
-    # for index_testing in range(X_pretreated.shape[0]):
-        print(index_testing)
+
+    for test_data_index in test_data_index_set:
+        print(test_data_index)
 
         # training
-        X_test = X_pretreated[index_testing, :]
-        Y_test = my_Y[index_testing]
+        X_test = X_pretreated[test_data_index, :]
+        Y_test = my_Y[test_data_index]
 
-        X_train = np.delete(X_pretreated, index_testing, axis=0)
-        Y_train = np.delete(my_Y, index_testing, axis=0)
+        X_train = np.delete(X_pretreated, test_data_index, axis=0)
+        Y_train = np.delete(my_Y, test_data_index, axis=0)
 
         obj_logistic_regression = d_logistic_regression.logistic_regression(X=X_train,
                                                                             y=Y_train,
@@ -120,7 +121,7 @@ def main():
         optimal_theta, J = obj_logistic_regression.fit()
 
         # testing
-        my_Y_predict = obj_logistic_regression.predict(X_test)
+        my_label_predict, my_prob_predict = obj_logistic_regression.predict(X_test)
 
         # transform theta to use the non-pretreated X
         # optimal_theta_transformed = np.zeros((my_number_of_variables+1, 1))
@@ -145,12 +146,15 @@ def main():
         print("coefficients:")
         print(logistic_classifier.coef_)
 
-        X_test = X_test.reshape((1, -1))
-        scikit_Y_predict = logistic_classifier.predict(X_test)
 
-        tf = (my_Y_predict == scikit_Y_predict)
+        # X_test = X_test.reshape((1, -1))
+        scikit_label_predict = logistic_classifier.predict(X_test)
+        scikit_prob_predict = logistic_classifier.predict_proba(X_test)
 
-        compare_with_scikit.append(tf[0][0])
+        tf = (my_label_predict == scikit_label_predict)
+
+        # compare_with_scikit.append(tf[0][0])
+        compare_with_scikit.append(sum(tf))
 
         # plot J and theta from training
         if my_bool_regularization:

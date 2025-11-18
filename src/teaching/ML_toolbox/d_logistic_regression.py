@@ -34,9 +34,9 @@ class logistic_regression:
         if self.bool_regularization:
             for i in range(self.number_of_samples):
                 current_x = self.X[i, :]
-                current_y = float(np.item(self.y[i]))
+                current_y = float(self.y[i].item())
 
-                current_z = np.asscalar(np.matmul(current_x, theta))  # linear combination of variables
+                current_z = np.matmul(current_x, theta).item()  # linear combination of variables
                 current_y_hat = self.get_logistic(current_z)  # logistic function
 
                 J = J + current_y * np.log(current_y_hat) + (1.0 - current_y) * np.log(1.0 - current_y_hat)
@@ -45,7 +45,7 @@ class logistic_regression:
 
             temp = 0.0
             for j in np.arange(start=1, stop=self.number_of_variables, step=1):
-                current_theta = np.asscalar(theta[j])
+                current_theta = theta[j].item()
                 temp = temp + current_theta * current_theta
 
             J = J + temp * self.regularization_lambda / 2.0
@@ -54,9 +54,9 @@ class logistic_regression:
             for i in range(self.number_of_samples):
                 current_x = self.X[i, :]
                 # current_y = float(np.asscalar(self.y[i]))
-                current_y = float(self.y[i][0])
+                current_y = float(self.y[i].item())
 
-                current_z = np.asscalar(np.matmul(current_x, theta))  # linear combination of variables
+                current_z = np.matmul(current_x, theta).item()  # linear combination of variables
                 current_y_hat = self.get_logistic(current_z)  # logistic function
 
                 J = J + current_y * np.log(current_y_hat) + (1.0 - current_y) * np.log(1.0 - current_y_hat)
@@ -76,9 +76,9 @@ class logistic_regression:
             # gradient for theta_0
             for i in range(self.number_of_samples):
                 current_x = self.X[i, :]
-                current_y = np.asscalar(self.y[i])
+                current_y = self.y[i].item()
 
-                current_z = np.asscalar(np.matmul(current_x, theta))
+                current_z = np.matmul(current_x, theta).item()
                 current_y_hat = self.get_logistic(current_z)
 
                 current_error = current_y_hat - current_y
@@ -90,9 +90,9 @@ class logistic_regression:
 
                 for i in range(self.number_of_samples):
                     current_x = self.X[i, :]
-                    current_y = np.asscalar(self.y[i])
+                    current_y = self.y[i].item()
 
-                    current_z = np.asscalar(np.matmul(current_x, theta))
+                    current_z = np.matmul(current_x, theta).item()
                     current_y_hat = self.get_logistic(current_z)
 
                     current_error = current_y_hat - current_y
@@ -163,19 +163,39 @@ class logistic_regression:
         return optimal_theta, J_all_iterations
 
     def predict(self, X_test):
-        X_test = np.asmatrix(X_test)
+        # X_test = np.asmatrix(X_test)
 
         x0 = np.ones((X_test.shape[0], 1))
         X_test_augmented = np.hstack((x0, X_test))
 
         z = np.matmul(X_test_augmented, self.optimal_theta)
 
-        y_hat = self.get_logistic(z[0, 0])
+        # get y_hat
+        if X_test.shape[0] == 1:
+            # if there is only one test sample
+            prob_predict_array = self.get_logistic(z[0][0])
 
-        y_hat = np.array(y_hat)
-        y_predict = np.zeros((X_test.shape[0], 1))
-        II = np.where(y_hat > 0.5)
-        if len(II[0]) > 0:
-            y_predict[II] = 1.0
+            if z[0][0] > 0.5:
+                label_predict_array = np.array(int(1))
+            else:
+                label_predict_array = np.array(int(0))
 
-        return y_predict
+        else:
+            prob_predict_list = []
+            for i in range(len(z)):
+                cur_z = z[i]
+                cur_prob_predict = self.get_logistic(cur_z)
+                prob_predict_list.append(cur_prob_predict)
+
+            prob_predict_array = np.array(prob_predict_list)
+
+            label_predict_list = []
+            for i in range(len(z)):
+                cur_y_hat = prob_predict_list[i]
+                if cur_y_hat > 0.5:
+                    label_predict_list.append(int(1))
+                else:
+                    label_predict_list.append(int(0))
+            label_predict_array = np.array(label_predict_list)
+
+        return label_predict_array, prob_predict_array

@@ -56,7 +56,7 @@ save_fig = True
 my_learning_rate = 0.5
 my_num_of_iterations = 500
 
-index_example = 2
+index_example = 1
 # index_example=1: regression
 # index_example=2: classification
 
