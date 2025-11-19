@@ -7,7 +7,7 @@ from sklearn import datasets
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
-index_example = 2
+index_example = 0
 # index_example == 0: toy data
 # index_example == 1: iris data
 # index_example == 2: cell line data
@@ -41,7 +41,7 @@ def main():
         print(object_DBSCAN.labels_)
 
     elif index_example == 2:
-        in_file_name = '../../data/SCLC_study_output_filtered_2.csv'
+        in_file_name = '../data/SCLC_study_output_filtered_2.csv'
         data_in = pd.read_csv(in_file_name, index_col=0, header=0)
         X = data_in.to_numpy()
 

@@ -74,31 +74,31 @@ def main():
     print("\ncluster labels from HC with complete linkage and Euclidean distance for cell line data:")
     print(HC_model_SCLC_1.labels_)
 
-    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='ward', affinity='euclidean')
+    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='ward', metric='euclidean')
     # ward minimizes the variance of the clusters being merged.
     HC_model_SCLC_1.fit(dataIn.values)
     print("\ncluster labels from HC with ward linkage and Euclidean distance for cell line data:")
     print(HC_model_SCLC_1.labels_)
 
-    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='average', affinity='euclidean')
+    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='average', metric='euclidean')
     HC_model_SCLC_1.fit(dataIn.values)
     print("\ncluster labels from HC with average linkage and Euclidean distance for cell line data:")
     print(HC_model_SCLC_1.labels_)
 
     PCA_result = PCA(n_components=3).fit_transform(dataIn.values)
-    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='ward', affinity='euclidean')
+    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='ward', metric='euclidean')
     HC_model_SCLC_1.fit(PCA_result)
     print("\ncluster labels from PCA (3 components) and then HC with ward linkage and Euclidean distance for cell line data:")
     print(HC_model_SCLC_1.labels_)
 
     PCA_result = PCA(n_components=4).fit_transform(dataIn.values)
-    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='ward', affinity='euclidean')
+    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='ward', metric='euclidean')
     HC_model_SCLC_1.fit(PCA_result)
     print("\ncluster labels from PCA (4 components) and then HC with ward linkage and Euclidean distance for cell line data:")
     print(HC_model_SCLC_1.labels_)
 
     PCA_result = PCA(n_components=19).fit_transform(dataIn.values)
-    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='ward', affinity='euclidean')
+    HC_model_SCLC_1 = AgglomerativeClustering(n_clusters=2, linkage='ward', metric='euclidean')
     HC_model_SCLC_1.fit(PCA_result)
     print("\ncluster labels from PCA (19 components) and then HC with ward linkage and Euclidean distance for cell line data:")
     print(HC_model_SCLC_1.labels_)

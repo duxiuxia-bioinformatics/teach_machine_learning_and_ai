@@ -4,10 +4,12 @@ class logistic_regression:
     def __init__(self, X, y, delta_J_threshold, initial_theta, learning_rate, bool_regularization=False, regularization_lambda=0):
         self.number_of_samples = X.shape[0]
 
-        x0 = np.ones((self.number_of_samples, 1))
-        self.X = np.hstack((x0, X))
+        # x0 = np.ones((self.number_of_samples, 1))
+        # self.X = np.hstack((x0, X))
 
+        self.X = X
         self.y = y
+
         self.delta_J_threshold = delta_J_threshold
 
         initial_theta_for_x0 = np.array([0])
