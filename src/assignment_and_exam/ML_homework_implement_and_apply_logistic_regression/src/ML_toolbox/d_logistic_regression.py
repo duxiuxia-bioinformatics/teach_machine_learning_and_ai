@@ -4,16 +4,12 @@ class logistic_regression:
     def __init__(self, X, y, delta_J_threshold, initial_theta, learning_rate, bool_regularization=False, regularization_lambda=0):
         self.number_of_samples = X.shape[0]
 
-        # x0 = np.ones((self.number_of_samples, 1))
-        # self.X = np.hstack((x0, X))
-
         self.X = X
         self.y = y
 
         self.delta_J_threshold = delta_J_threshold
 
-        initial_theta_for_x0 = np.array([0])
-        self.initial_theta = np.vstack((initial_theta_for_x0, initial_theta))
+        self.initial_theta = initial_theta
 
         self.learning_rate = learning_rate
 
@@ -166,11 +162,11 @@ class logistic_regression:
 
     def predict(self, X_test):
         # X_test = np.asmatrix(X_test)
+        #
+        # x0 = np.ones((X_test.shape[0], 1))
+        # X_test_augmented = np.hstack((x0, X_test))
 
-        x0 = np.ones((X_test.shape[0], 1))
-        X_test_augmented = np.hstack((x0, X_test))
-
-        z = np.matmul(X_test_augmented, self.optimal_theta)
+        z = np.matmul(X_test, self.optimal_theta)
 
         # get y_hat
         if X_test.shape[0] == 1:
