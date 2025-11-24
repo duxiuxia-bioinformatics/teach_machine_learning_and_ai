@@ -7,7 +7,7 @@ from sklearn import datasets
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
-index_example = 0
+index_example = 1
 # index_example == 0: toy data
 # index_example == 1: iris data
 # index_example == 2: cell line data
@@ -18,7 +18,7 @@ def main():
         plt.scatter(X[:, 0], X[:, 1])
         plt.show()
 
-        obj_DBSCAN = DBSCAN(eps=3, min_samples=4).fit(X)
+        obj_DBSCAN = DBSCAN(eps=6, min_samples=4).fit(X)
         print(obj_DBSCAN.labels_)
 
     if index_example == 1:
@@ -36,7 +36,7 @@ def main():
         plt.hist(distance_list)
         plt.show()
 
-        object_DBSCAN = DBSCAN(eps=0.45, min_samples=8)
+        object_DBSCAN = DBSCAN(eps=1, min_samples=6)
         object_DBSCAN.fit(data_in.data)
         print(object_DBSCAN.labels_)
 

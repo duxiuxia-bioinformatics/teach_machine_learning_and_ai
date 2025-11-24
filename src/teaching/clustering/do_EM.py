@@ -3,9 +3,13 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.random import random
 
 from sklearn.mixture import GaussianMixture
+
+# ===============
+# plotting parameters
+marker_size = 9
+# ===============
 
 # simulate data
 N = 1500
@@ -21,7 +25,7 @@ X = np.concatenate((X, np.random.multivariate_normal(mean2, cov, int(N/6))))
 X = np.concatenate((X, np.random.multivariate_normal(mean3, cov, int(N/6))))
 
 fig, ax = plt.subplots()
-ax.plot(X[:, 0], X[:, 1], 'r+', markersize=4)
+ax.scatter(X[:, 0], X[:, 1], marker='+', s=marker_size, color='red')
 fig.show()
 
 # use sklearn
@@ -36,18 +40,21 @@ fig, ax = plt.subplots()
 II_0 = np.where(predicted_cluster==0)
 II_1 = np.where(predicted_cluster==1)
 II_2 = np.where(predicted_cluster==2)
-ax.scatter(X[II_0, 0], X[II_0, 1], color='green')
-ax.scatter(X[II_1, 0], X[II_1, 1], color='blue')
-ax.scatter(X[II_2, 0], X[II_2, 1], color='red')
-ax.scatter(object_em.means_[:, 0], object_em.means_[:, 1], color='black', s=40)
+ax.scatter(X[II_0, 0], X[II_0, 1], color='green', s=marker_size)
+ax.scatter(X[II_1, 0], X[II_1, 1], color='blue', s=marker_size)
+ax.scatter(X[II_2, 0], X[II_2, 1], color='red', s=marker_size)
+ax.scatter(object_em.means_[:, 0], object_em.means_[:, 1], color='black', marker='*', s=40)
 fig.show()
 
+
+# =====================
 # add noise
+# =====================
 noise = 20*np.random.rand(int(N/2), 2)
 
 fig, ax = plt.subplots()
-ax.plot(X[:, 0], X[:, 1], 'r+', markersize=4)
-ax.plot(noise[:, 0], noise[:, 1], 'k.', markersize=4)
+ax.scatter(X[:, 0], X[:, 1], marker='+', s=4, color='red')
+ax.scatter(noise[:, 0], noise[:, 1], marker='.', s=4, color='green')
 X = np.concatenate((X, noise))
 fig.show()
 
@@ -62,9 +69,9 @@ fig, ax = plt.subplots()
 II_0 = np.where(predicted_cluster==0)
 II_1 = np.where(predicted_cluster==1)
 II_2 = np.where(predicted_cluster==2)
-ax.scatter(X[II_0, 0], X[II_0, 1], color='green')
-ax.scatter(X[II_1, 0], X[II_1, 1], color='blue')
-ax.scatter(X[II_2, 0], X[II_2, 1], color='red')
+ax.scatter(X[II_0, 0], X[II_0, 1], color='green', s=marker_size)
+ax.scatter(X[II_1, 0], X[II_1, 1], color='blue', s=marker_size)
+ax.scatter(X[II_2, 0], X[II_2, 1], color='red', s=marker_size)
 ax.scatter(object_em.means_[:, 0], object_em.means_[:, 1], color='black', s=40)
 fig.show()
 

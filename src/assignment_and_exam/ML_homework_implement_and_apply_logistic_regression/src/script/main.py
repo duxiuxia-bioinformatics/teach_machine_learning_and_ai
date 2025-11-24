@@ -8,6 +8,7 @@ import statsmodels.api as sm
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
 
+# =================================
 # Add the parent directory to the Python path
 def get_parent_dir():
     try:
@@ -19,9 +20,8 @@ def get_parent_dir():
     return os.path.abspath(os.path.join(current_dir, '..'))
 
 parent_dir = get_parent_dir()
-
-# parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
+# =================================
 
 from ML_toolbox import d_logistic_regression
 
