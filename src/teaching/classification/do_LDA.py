@@ -3,7 +3,7 @@ import sys
 import numpy as np
 import math
 import pandas as pd
-
+import os
 import matplotlib.pyplot as plt
 
 from sklearn.datasets import load_iris
@@ -12,6 +12,21 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.linear_model import LogisticRegression
+
+try:
+    # Works in .py scripts
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+except NameError:
+    # Fallback for Jupyter
+    current_dir = os.getcwd()
+
+# Go up N levels (here N=2, but you can adjust)
+project_root = os.path.abspath(os.path.join(current_dir, '..'))
+
+# Add the project root to sys.path if not already there so that the ML_toolbox can be imported
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 
 from ML_toolbox import d_LDA
 from ML_toolbox import d_data_model
