@@ -52,7 +52,7 @@ class MyPCA:
         ax.set_xlabel('PC index')
         ax.set_ylabel('percent variance explained')
         ax.set_ylim((-10.0, 110.0))
-        fig.show()
+        # fig.show()
 
 
         # scores plot
@@ -61,7 +61,7 @@ class MyPCA:
         ax.set_title('scores plot')
         ax.set_xlabel('PC1 (' + str(round(self.pca_results['percent_variance_explained'][0])) + '%)')
         ax.set_ylabel('PC2 (' + str(round(self.pca_results['percent_variance_explained'][1])) + '%)')
-        fig.show()
+        # fig.show()
 
         # loadings plot
         fig, ax = plt.subplots(figsize=(fig_width, fig_height))
@@ -71,4 +71,4 @@ class MyPCA:
         ax.set_ylabel('PC2')
         for i in range(self.pca_results['loadings'].shape[0]):
             ax.text(self.pca_results['loadings'][i, 0], self.pca_results['loadings'][i, 1], 'x' + str(i + 1))
-        fig.show()
+        # fig.show()
