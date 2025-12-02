@@ -126,7 +126,7 @@ class MyANN:
         theta.append(self.initial_theta)
 
         for index_iter in np.arange(start=1, stop=self.num_of_iterations, step=1):
-            if index_iter % 100 == 0:
+            if index_iter % 1000 == 0:
                 print("iteration = " + str(index_iter))
 
             d_total_cost_wrt_theta_all_samples = {}
@@ -182,7 +182,6 @@ class MyANN:
         return theta, cost_list
 
     def predict(self, X):
-
         y_predicted_list = []
         for i in range(X.shape[0]):
             cur_X = X[i, :]
@@ -190,7 +189,7 @@ class MyANN:
             cur_z_predicted, cur_a_predicted = self.do_forward_propagation(one_sample_x=cur_X, w=self.optimal_theta)
 
             if self.bool_is_classification:
-                if cur_a_predicted['layer_3'] > 0.5:
+                if cur_a_predicted['layer_3'][0][0] > 0.5:
                     cur_label_predicted = int(1)
                 else:
                     cur_label_predicted = int(0)
@@ -201,3 +200,15 @@ class MyANN:
         y_predicted_array = np.array(y_predicted_list)
 
         return y_predicted_array
+
+    def predict_proba(self, X):
+        prob_predicted_list = []
+        for i in range(X.shape[0]):
+            cur_X = X[i, :]
+
+            cur_z_predicted, cur_a_predicted = self.do_forward_propagation(one_sample_x=cur_X, w=self.optimal_theta)
+            prob_predicted_list.append(cur_a_predicted['layer_3'][0][0])
+
+        prob_predicted_array = np.array(prob_predicted_list)
+
+        return prob_predicted_array
