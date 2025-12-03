@@ -31,13 +31,15 @@ if project_root not in sys.path:
 from ML_toolbox import d_LDA
 from ML_toolbox import d_data_model
 
-import config
+# import config
+
+marker_size = 9
 
 # -----------------------------------------------------
 # selections
 # -----------------------------------------------------
 bool_use_sklearn = False
-index_example = 4
+index_example = 5
 
 # bool_use_sklearn = False
 #   index_example = 1: toy data
@@ -58,7 +60,7 @@ def main():
             # 1. Do LDA on toy data
             # -----------------------------------------------------
 
-            file_name = "../../data/toy_data_for_LDA.csv"
+            file_name = "../data/toy_data_for_LDA.csv"
             data_in = pd.read_csv(file_name)
 
             data_for_analysis = d_data_model.data_model(data_in)
@@ -95,16 +97,16 @@ def main():
             ax.set_xlabel(r'$x_1$')
             ax.set_ylabel(r'$x_2$')
 
-            ax.scatter(x0[:, 0], x0[:, 1], color='blue', s=config.marker_size)
-            ax.scatter(x1[:, 0], x1[:, 1], color='red', s=config.marker_size)
+            ax.scatter(x0[:, 0], x0[:, 1], color='blue', s=marker_size)
+            ax.scatter(x1[:, 0], x1[:, 1], color='red', s=marker_size)
 
             ax.plot([0, W_scaled[0]], [0, W_scaled[1]], color='green')
             ax.scatter(-my_LDA_result['projection_0'] * math.cos(theta),
                     -my_LDA_result['projection_0'] * math.sin(theta),
-                    color='blue', marker='x', s=config.marker_size)
+                    color='blue', marker='x', s=marker_size)
             ax.scatter(-my_LDA_result['projection_1'] * math.cos(theta),
                     -my_LDA_result['projection_1'] * math.sin(theta),
-                    color='red', marker='x', s=config.marker_size)
+                    color='red', marker='x', s=marker_size)
 
             ax.set_aspect(1)
 
@@ -329,7 +331,7 @@ def main():
             # -----------------------------------------------------
             # 5. Do LDA on cell line data
             # -----------------------------------------------------
-            in_file_name = "../../data/SCLC_study_output_filtered_2.csv"
+            in_file_name = "../data/SCLC_study_output_filtered_2.csv"
             data_in = pd.read_csv(in_file_name, index_col=0)
 
             my_X = data_in.values
@@ -346,13 +348,13 @@ def main():
             ax.set_ylabel('')
 
             ax.scatter(my_LDA_result['projection_0'], np.zeros(20),
-                       marker='o', s=config.marker_size, color='blue', label='NSCLC')
+                       marker='o', s=marker_size, color='blue', label='NSCLC')
             ax.scatter(my_LDA_result['projection_1'], np.zeros(20),
-                       marker='o', s=config.marker_size, color='red', label='SCLC')
+                       marker='o', s=marker_size, color='red', label='SCLC')
             ax.scatter(my_LDA_result['mu_0_in_projection_space'], 0.0,
-                       marker='*', s=config.marker_size, color='cyan')
+                       marker='*', s=marker_size, color='cyan')
             ax.scatter(my_LDA_result['mu_1_in_projection_space'], 0.0,
-                       marker='*', s=config.marker_size, color='cyan', label='average')
+                       marker='*', s=marker_size, color='cyan', label='average')
             ax.legend()
 
             fig.show()
