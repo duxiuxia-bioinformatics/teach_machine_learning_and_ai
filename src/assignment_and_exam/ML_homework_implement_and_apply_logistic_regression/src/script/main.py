@@ -130,7 +130,7 @@ def main():
         # =====================
         sklearn_logistic_obj = LogisticRegression(random_state=0,
                                                  solver='liblinear',
-                                                 fit_intercept=False,
+                                                 fit_intercept=True,
                                                  tol=1e-6)
         sklearn_logistic_obj.fit(X_train_scaled, y_train_array.ravel())
 

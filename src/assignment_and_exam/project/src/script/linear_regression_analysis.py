@@ -2,6 +2,7 @@
 
 import pandas as pd
 import os, sys
+import numpy as np
 import pickle
 
 from sklearn.linear_model import LinearRegression
@@ -54,6 +55,20 @@ def main():
 
     tf = corr_df > corr_threshold
     xx = tf.sum().sum()
+
+    tf_upper_no_diagonal = pd.DataFrame(np.triu(tf, k=1), index=tf.index, columns=tf.columns)
+
+    positions = (tf_upper_no_diagonal.stack()[tf_upper_no_diagonal.stack()]).index
+
+    out_file_name = 'positions_needed.pickle'
+    file_handle = open(out_file_name, 'wb')
+    pickle.dump(positions, file_handle)
+    file_handle.close()
+
+    fig, ax = plt.subplots()
+    ax.scatter(data_in_df.loc[positions[0][0]], data_in_df.loc[positions[0][1]], color='blue', s=marker_size)
+    ax.set_xlabel(positions[0][0])
+    ax.set_ylabel(positions[0][1])
 
     return
 
