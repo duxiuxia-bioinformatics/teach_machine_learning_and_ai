@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>descriptive_statistics.ipynb</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #bcbec4;}
+.s1 { color: #cf8e6d;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+.ls0 { height: 1px; border-width: 0; color: #43454a; background-color:#43454a}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+descriptive_statistics.ipynb</font>
+</center></td></tr></table>
+<pre><span class="s0">#%% md 
+# Descriptive Statistics <hr class="ls0">#%% 
+</span><span class="s1">import </span><span class="s0">os</span><span class="s2">, </span><span class="s0">sys</span>
+<span class="s1">import </span><span class="s0">pandas </span><span class="s1">as </span><span class="s0">pd</span>
+
+<span class="s1">import </span><span class="s0">numpy </span><span class="s1">as </span><span class="s0">np</span>
+<span class="s1">import </span><span class="s0">matplotlib</span><span class="s2">.</span><span class="s0">pyplot </span><span class="s1">as </span><span class="s0">plt</span>
+<span class="s2">%</span><span class="s0">matplotlib inline</span>
+
+<span class="s1">from </span><span class="s0">IPython</span><span class="s2">.</span><span class="s0">display </span><span class="s1">import </span><span class="s0">display</span><span class="s2">, </span><span class="s0">Latex</span>
+
+<span class="s1">from </span><span class="s0">scipy</span><span class="s2">.</span><span class="s0">stats </span><span class="s1">import </span><span class="s0">chi2</span><span class="s2">, </span><span class="s0">t</span><span class="s2">, </span><span class="s0">f</span><hr class="ls0"><span class="s0">#%% 
+</span><span class="s3"># =================================</span>
+<span class="s3"># Add the parent directory to the Python path</span>
+<span class="s1">def </span><span class="s0">get_parent_dir</span><span class="s2">():</span>
+    <span class="s1">try</span><span class="s2">:</span>
+        <span class="s3"># Works when running a script</span>
+        <span class="s0">current_dir </span><span class="s2">= </span><span class="s0">os</span><span class="s2">.</span><span class="s0">path</span><span class="s2">.</span><span class="s0">dirname</span><span class="s2">(</span><span class="s0">__file__</span><span class="s2">)</span>
+    <span class="s1">except </span><span class="s0">NameError</span><span class="s2">:</span>
+        <span class="s3"># Works in notebooks / REPL</span>
+        <span class="s0">current_dir </span><span class="s2">= </span><span class="s0">os</span><span class="s2">.</span><span class="s0">getcwd</span><span class="s2">()</span>
+    <span class="s1">return </span><span class="s0">os</span><span class="s2">.</span><span class="s0">path</span><span class="s2">.</span><span class="s0">abspath</span><span class="s2">(</span><span class="s0">os</span><span class="s2">.</span><span class="s0">path</span><span class="s2">.</span><span class="s0">join</span><span class="s2">(</span><span class="s0">current_dir</span><span class="s2">, </span><span class="s4">'..'</span><span class="s2">))</span>
+
+<span class="s0">parent_dir </span><span class="s2">= </span><span class="s0">get_parent_dir</span><span class="s2">()</span>
+<span class="s0">sys</span><span class="s2">.</span><span class="s0">path</span><span class="s2">.</span><span class="s0">append</span><span class="s2">(</span><span class="s0">parent_dir</span><span class="s2">)</span>
+<span class="s3"># =================================</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">parent_dir</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% 
+</span><span class="s3"># import data</span>
+<span class="s0">in_file_name </span><span class="s2">= </span><span class="s4">'NHANES_PFAS_J_2017-2018.csv'</span>
+<span class="s0">in_file_full_name </span><span class="s2">= </span><span class="s0">os</span><span class="s2">.</span><span class="s0">path</span><span class="s2">.</span><span class="s0">join</span><span class="s2">(</span><span class="s0">parent_dir</span><span class="s2">, </span><span class="s4">'data'</span><span class="s2">, </span><span class="s0">in_file_name</span><span class="s2">)</span>
+<span class="s0">data_df </span><span class="s2">= </span><span class="s0">pd</span><span class="s2">.</span><span class="s0">read_csv</span><span class="s2">(</span><span class="s0">in_file_full_name</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">data_df</span><span class="s2">.</span><span class="s0">shape</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">data_df</span><span class="s2">.</span><span class="s0">columns</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+## Descriptive statistics <hr class="ls0">#%% md 
+Sample mean 
+$$ 
+\bar{X} = \frac{\sum_{i=1}^n x_i}{n} 
+$$ 
+Sample mean reflects central tendency of the data. 
+ <hr class="ls0">#%% 
+variable_name </span><span class="s2">= </span><span class="s4">'LBXPFDE'</span><hr class="ls0"><span class="s0">#%% 
+x_bar </span><span class="s2">= </span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">mean</span><span class="s2">()</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">x_bar</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+Sample median: the middle value in a dataset when arranged in order, separating the higher half from the lower half. <hr class="ls0">#%% 
+sample_median </span><span class="s2">= </span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">median</span><span class="s2">()</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">sample_median</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+Sample variance 
+$$ 
+s^2 = \frac{\sum_{i=1}^n (x_i - \bar{X})^2}{n-1} 
+$$ 
+Sample variance reflects deviation of the data from the mean. <hr class="ls0">#%% 
+s_squared </span><span class="s2">= </span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">var</span><span class="s2">()</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">s_squared</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+Sample standard deviation 
+$$ 
+s = \sqrt{s} 
+$$ 
+Sample standard deviation reflects deviation of the data from the mean and has the same unit as $x_i$. <hr class="ls0">#%% 
+s </span><span class="s2">= </span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">std</span><span class="s2">()</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">s</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+Range = max(x) - min(x) <hr class="ls0">#%% 
+sample_range </span><span class="s2">= </span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">max</span><span class="s2">() - </span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">min</span><span class="s2">()</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">sample_range</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+Distribution: can be visualized as a histogram, boxplot, or density plot <hr class="ls0">#%% 
+</span><span class="s3"># Histogram in linear scale</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">hist</span><span class="s2">(</span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">dropna</span><span class="s2">(), </span><span class="s0">bins</span><span class="s2">=</span><span class="s5">30</span><span class="s2">)</span>
+
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">hist</span><span class="s2">(</span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">dropna</span><span class="s2">(), </span><span class="s0">bins</span><span class="s2">=</span><span class="s5">30</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">xlabel</span><span class="s2">(</span><span class="s4">f'</span><span class="s1">{</span><span class="s0">variable_name</span><span class="s1">} </span><span class="s4">concentration'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">ylabel</span><span class="s2">(</span><span class="s4">f'counts'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">title</span><span class="s2">(</span><span class="s4">f'</span><span class="s1">{</span><span class="s0">variable_name</span><span class="s1">} </span><span class="s4">Histogram in linear scale'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span>
+
+<span class="s3"># Histogram in log scale</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">hist</span><span class="s2">(</span><span class="s0">np</span><span class="s2">.</span><span class="s0">log</span><span class="s2">(</span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">dropna</span><span class="s2">()), </span><span class="s0">bins</span><span class="s2">=</span><span class="s5">30</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">xlabel</span><span class="s2">(</span><span class="s4">f'</span><span class="s1">{</span><span class="s0">variable_name</span><span class="s1">} </span><span class="s4">concentration'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">ylabel</span><span class="s2">(</span><span class="s4">f'counts'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">title</span><span class="s2">(</span><span class="s4">f'</span><span class="s1">{</span><span class="s0">variable_name</span><span class="s1">} </span><span class="s4">Histogram in log scale'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span><hr class="ls0"><span class="s0">#%% md 
+Boxplot or box-and-whisker plot 
+ 
+It summarizes a dataset's distribution, especially when you want to compare groups or spot outliers quickly. Each boxplot is built from five key numbers: 
+ 
+- Minimum 
+- Q1 (1st quartile): 25 of data below this 
+- Median (Q2): middle value 
+- Q3 (3rd quartile): 75 of data below this 
+- Maximum 
+ <hr class="ls0">#%% 
+plt</span><span class="s2">.</span><span class="s0">boxplot</span><span class="s2">(</span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">dropna</span><span class="s2">())</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">ylabel</span><span class="s2">(</span><span class="s4">'concentration'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">title</span><span class="s2">(</span><span class="s4">f'Boxplot of </span><span class="s1">{</span><span class="s0">variable_name</span><span class="s1">}</span><span class="s4">'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span><hr class="ls0"><span class="s0">#%% 
+plt</span><span class="s2">.</span><span class="s0">boxplot</span><span class="s2">(</span><span class="s0">np</span><span class="s2">.</span><span class="s0">log</span><span class="s2">(</span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">dropna</span><span class="s2">()))</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">ylabel</span><span class="s2">(</span><span class="s4">'concentration'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">title</span><span class="s2">(</span><span class="s4">f'Boxplot of </span><span class="s1">{</span><span class="s0">variable_name</span><span class="s1">}</span><span class="s4">'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span><hr class="ls0"><span class="s0">#%% md 
+Parts of a boxplot. 
+ 
+- The box 
+    - Span from Q1 to Q3 
+    - Contains the middle 50% of the data 
+    - Its height = IQR (Interquartile Range): IQR = Q3 - Q1 
+- The line in the box is the median 
+- The whiskers extend to the smallest and largest values within Q1 - 1.5 * IQR and Q3 + 1.5 * IQR 
+- The dots beyond whiskers are outliers that are unusually small or large values. 
+ 
+How to interpret a boxplot? 
+ 
+- Center 
+    - Median tells us where the data is centered 
+- Spread 
+    - Big box --&gt; data is more variable 
+    - Small box --&gt; data is more consistent 
+- Skewness 
+    - Median closer to bottom of box --&gt; right-skewed 
+    - Median closer to the top of box --&gt; left-skewed 
+- Outliers 
+    - Points far away from the box --&gt; potential errors, rare events, or special cases 
+ <hr class="ls0">#%% md 
+Density plots: Also called a KDE plot, shows the smoothed distribution of the data <hr class="ls0">#%% 
+x </span><span class="s2">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">log</span><span class="s2">(</span><span class="s0">data_df</span><span class="s2">[</span><span class="s0">variable_name</span><span class="s2">].</span><span class="s0">dropna</span><span class="s2">())</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">hist</span><span class="s2">(</span><span class="s0">x</span><span class="s2">, </span><span class="s0">bins</span><span class="s2">=</span><span class="s5">30</span><span class="s2">, </span><span class="s0">density</span><span class="s2">=</span><span class="s1">True</span><span class="s2">, </span><span class="s0">alpha</span><span class="s2">=</span><span class="s5">0.4</span><span class="s2">)</span>
+<span class="s0">x</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">kind</span><span class="s2">=</span><span class="s4">'density'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">title</span><span class="s2">(</span><span class="s4">'Histogram of logarithmic scale'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span></pre>
+</body>
+</html>
