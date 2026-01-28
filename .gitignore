@@ -81,3 +81,7 @@ target/
 data/*
 !data/keep/
 
+
+# Generated artifacts
+*.pickle
+*.pkl
