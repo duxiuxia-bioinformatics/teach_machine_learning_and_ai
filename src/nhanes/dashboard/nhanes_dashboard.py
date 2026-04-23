@@ -188,6 +188,8 @@ baseline = Pipeline([
     ("scaler", StandardScaler()),
     ("lr", LogisticRegression(solver="lbfgs", max_iter=2000, random_state=RANDOM_STATE))
 ])
+
+
 #
 # baseline.fit(X_train, y_train)
 #
